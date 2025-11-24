@@ -303,14 +303,18 @@ async def predict_demand(request: PredictionRequest):
     try:
         # Parse datetime
         prediction_datetime = datetime.fromisoformat(request.prediction_datetime)
+        logger.info(f"Processing prediction for {prediction_datetime}")
         
         # Compute features
+        logger.info("Computing enhanced features...")
         features = compute_enhanced_features(prediction_datetime, historical_data)
+        logger.info(f"Features computed: {features.shape}")
         
         # Make prediction
+        logger.info("Making prediction...")
         prediction = float(model.predict(features)[0])
         
-        logger.info(f"Prediction for {prediction_datetime}: {prediction:,.0f} MW")
+        logger.info(f"✅ Prediction for {prediction_datetime}: {prediction:,.0f} MW")
         
         # Return key features for transparency
         key_features = {
@@ -331,11 +335,11 @@ async def predict_demand(request: PredictionRequest):
         )
         
     except ValueError as e:
-        logger.error(f"Invalid datetime format: {e}")
+        logger.error(f"❌ Invalid datetime format: {e}")
         raise HTTPException(status_code=400, detail=f"Invalid datetime format: {str(e)}")
     except Exception as e:
-        logger.error(f"Prediction error: {e}")
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        logger.error(f"❌ Prediction error: {type(e).__name__}: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Prediction failed: {type(e).__name__}: {str(e)}")
 
 @app.get("/model-info")
 async def model_info():
