@@ -19,9 +19,15 @@ st.set_page_config(
     layout="wide"
 )
 
-# API endpoints - use environment variables for Railway, fallback to localhost
-HOUSING_API = os.getenv("HOUSING_API_URL", "http://localhost:8000")
-ELECTRICITY_API = os.getenv("ELECTRICITY_API_URL", "http://localhost:8002")
+# API endpoints - Railway production URLs
+HOUSING_API = os.getenv(
+    "HOUSING_API_URL", 
+    "https://friendly-clarity-housingandelectricity.up.railway.app"
+)
+ELECTRICITY_API = os.getenv(
+    "ELECTRICITY_API_URL", 
+    "https://housingelectricity-housingandelectricity.up.railway.app"
+)
 
 # Custom CSS
 st.markdown("""
