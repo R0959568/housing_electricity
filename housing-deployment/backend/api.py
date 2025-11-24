@@ -74,6 +74,11 @@ async def load_model():
     """Load the trained model on startup"""
     global model
     try:
+        # Debug: List all files in current directory
+        import os
+        logger.info(f"Current directory: {os.getcwd()}")
+        logger.info(f"Files in current dir: {os.listdir('.')}")
+        
         # Try multiple paths (local vs Railway deployment)
         model_paths = [
             Path("lightgbm_housing.pkl"),               # Same directory (Railway)
