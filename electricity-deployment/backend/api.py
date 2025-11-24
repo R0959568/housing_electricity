@@ -239,6 +239,7 @@ async def load_model_and_data():
         
         # Try multiple paths for historical data
         data_paths = [
+            Path("elec_cleaned_full_sample.csv"),  # Same directory
             Path("../../dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet"),
             Path("/app/dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet"),
             Path("../../dataset_2_electricity_app/data/interim/elec_cleaned_full_sample.csv"),
