@@ -220,6 +220,7 @@ async def load_model_and_data():
     try:
         # Try multiple paths for model
         model_paths = [
+            Path("gradient_boosting_enhanced.pkl"),     # Same directory (Railway)
             Path("../../dataset_2_electricity_app/data/final/models/gradient_boosting_enhanced.pkl"),
             Path("/app/dataset_2_electricity_app/data/final/models/gradient_boosting_enhanced.pkl"),
         ]

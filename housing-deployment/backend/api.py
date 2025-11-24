@@ -76,6 +76,7 @@ async def load_model():
     try:
         # Try multiple paths (local vs Railway deployment)
         model_paths = [
+            Path("lightgbm_housing.pkl"),               # Same directory (Railway)
             Path("../../models/lightgbm_housing.pkl"),  # Local development
             Path("/app/models/lightgbm_housing.pkl"),    # Railway with full repo
         ]
