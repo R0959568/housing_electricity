@@ -1,0 +1,55 @@
+##############################################
+# LARGE RAW DATA FILES (Don't upload to GitHub)
+##############################################
+
+# Raw CSV files (2.2GB+ - way too big!)
+Dataset_1_UK_housing/
+Dataset_2_UK_Historic_Electricity_Demand_Data/
+
+# Large trained models (over 100MB)
+dataset_2_electricity_app/data/final/models/pycaret_tuned_lightgbm.pkl
+dataset_2_electricity_app/data/final/models/rf_tuned_electricity.pkl
+dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet
+
+# Training artifacts
+catboost_info/
+
+##############################################
+# ESSENTIAL FILES TO KEEP (Will be uploaded)
+##############################################
+# ✅ models/lightgbm_housing.pkl (~22MB)
+# ✅ models/gradient_boosting_enhanced.pkl
+# ✅ data/cleaned/housing_clean.parquet (~7MB)
+# ✅ dataset_2_electricity_app/data/interim/elec_cleaned_full_sample.csv
+# ✅ dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet (~13MB)
+
+##############################################
+# Python & Development
+##############################################
+
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Environment
+venv/
+.env
+.env.*
+
+# Logs
+*.log
+/tmp/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
