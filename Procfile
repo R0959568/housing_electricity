@@ -1,1 +1,1 @@
-web: sh -c "cd housing-deployment/backend && uvicorn api:app --host 0.0.0.0 --port 8000 & cd ../../electricity-deployment/backend && uvicorn api:app --host 0.0.0.0 --port 8002 & streamlit run combined_app.py --server.port $PORT --server.address 0.0.0.0"
+web: bash start-railway.sh

@@ -10,6 +10,7 @@ import requests
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
 import numpy as np
+import os
 
 # Page config
 st.set_page_config(
@@ -18,9 +19,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# API endpoints
-HOUSING_API = "http://localhost:8000"
-ELECTRICITY_API = "http://localhost:8002"
+# API endpoints - use environment variables for Railway, fallback to localhost
+HOUSING_API = os.getenv("HOUSING_API_URL", "http://localhost:8000")
+ELECTRICITY_API = os.getenv("ELECTRICITY_API_URL", "http://localhost:8002")
 
 # Custom CSS
 st.markdown("""
