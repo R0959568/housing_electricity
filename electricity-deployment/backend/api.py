@@ -218,20 +218,47 @@ async def load_model_and_data():
     """Load the trained model and historical data on startup"""
     global model, historical_data
     try:
-        # Load model
-        model_path = Path("../../dataset_2_electricity_app/data/final/models/gradient_boosting_enhanced.pkl")
-        model = joblib.load(model_path)
-        logger.info("✅ Gradient Boosting model loaded successfully!")
+        # Try multiple paths for model
+        model_paths = [
+            Path("../../dataset_2_electricity_app/data/final/models/gradient_boosting_enhanced.pkl"),
+            Path("/app/dataset_2_electricity_app/data/final/models/gradient_boosting_enhanced.pkl"),
+        ]
         
-        # Load historical data
-        data_path = Path("../../dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet")
-        if data_path.exists():
-            historical_data = pd.read_parquet(data_path)
-            historical_data['datetime'] = pd.to_datetime(historical_data['settlement_date'])
-            historical_data = historical_data.dropna(subset=['datetime', 'demand_value'])
-            historical_data = historical_data.sort_values('datetime').reset_index(drop=True)
-            logger.info(f"✅ Historical data loaded: {len(historical_data):,} records")
-        else:
+        model_loaded = False
+        for model_path in model_paths:
+            if model_path.exists():
+                model = joblib.load(model_path)
+                logger.info(f"✅ Model loaded from {model_path}")
+                model_loaded = True
+                break
+        
+        if not model_loaded:
+            logger.error(f"❌ Model not found in paths: {model_paths}")
+            raise FileNotFoundError("Model file not found")
+        
+        # Try multiple paths for historical data
+        data_paths = [
+            Path("../../dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet"),
+            Path("/app/dataset_2_electricity_app/data/interim/elec_cleaned_full.parquet"),
+            Path("../../dataset_2_electricity_app/data/interim/elec_cleaned_full_sample.csv"),
+            Path("/app/dataset_2_electricity_app/data/interim/elec_cleaned_full_sample.csv"),
+        ]
+        
+        data_loaded = False
+        for data_path in data_paths:
+            if data_path.exists():
+                if data_path.suffix == '.parquet':
+                    historical_data = pd.read_parquet(data_path)
+                else:
+                    historical_data = pd.read_csv(data_path)
+                historical_data['datetime'] = pd.to_datetime(historical_data['settlement_date'])
+                historical_data = historical_data.dropna(subset=['datetime', 'demand_value'])
+                historical_data = historical_data.sort_values('datetime').reset_index(drop=True)
+                logger.info(f"✅ Historical data loaded from {data_path}: {len(historical_data):,} records")
+                data_loaded = True
+                break
+        
+        if not data_loaded:
             logger.warning("⚠️ Historical data not found. Using typical demand values.")
             
     except FileNotFoundError as e:
